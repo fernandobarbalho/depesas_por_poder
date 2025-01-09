@@ -1,0 +1,71 @@
+---
+title: "storytelling"
+author: "Fernando Almeida Barbalho"
+date: '2025-01-09'
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(colorspace)
+
+dados_graficos_federal_total <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_total.rds")
+
+gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titulo, subtitulo, caption){
+  
+  ultimo_ano <-
+    .data %>%
+    filter(ano == max(.data$ano))
+  
+  dados_anos_sel<-
+    .data %>%
+    filter(ano %in% anos_sel)
+  
+  
+  
+  
+  .data %>%
+    ggplot(aes(x = as.numeric(ano), y = evolucao)) + # Converte 'ano' para numérico
+    geom_line(aes(color = poder, group = poder), size = 1, show.legend = FALSE) +
+    geom_point(aes(color = poder), size = 2, show.legend = FALSE) +
+    scale_color_discrete_qualitative(palette = "Dark 2") +
+    scale_x_continuous(expand = expansion(mult = c(0, 0.4)),
+                       breaks = c(2010,2012,2014,2016,2018,2020,2022,2024)) + # Adiciona espaço à direita
+    scale_y_continuous(labels = scales::percent) + # Formata o eixo Y como porcentagem
+    geom_text(data = ultimo_ano, 
+              aes(x = as.numeric(ano) + 0.2, y = evolucao, label = as.character(poder), color  = poder), 
+              hjust = 0,
+              show.legend = FALSE) + # Alinha texto à esquerda
+    geom_label(data= dados_anos_sel,
+               aes(x= as.numeric(ano), y=evolucao + 0.05, 
+                   label = paste0(as.character(round(evolucao*100),0) ,"%"), 
+                   color = poder), 
+               show.legend = FALSE,
+               size = 3) +
+    theme_minimal() + 
+    theme(
+      panel.grid = element_blank()
+    ) +
+    labs(
+      y="",
+      x="",
+      title = titulo,
+      subtitle = subtitulo,
+      caption = caption
+    )
+  
+  
+}
+
+
+
+```
+
+
+## 
+
+```{r echo = FALSE, warning=FALSE, fig.height=8, fig.width=13, fig.dpi= 300 }
+gera_grafico_despesas_poderes(dados_graficos_federal_total, titulo= "Governo Federal: Evolução real de despesas correntes primárias - Todas as fontes de recurso", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
+```
+
