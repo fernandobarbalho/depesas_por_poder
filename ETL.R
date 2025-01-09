@@ -14,10 +14,11 @@ gera_dados_trabalho<- function(path_dados_orcamento, path_orgaos_orcamentarios= 
   
   despesas_primarais_totais_federal <- despesas_primarais_totais_federal[-1,]
   
-  despesas_primarais_totais_federal <- despesas_primarais_totais_federal[-c(669:674),]
+  despesas_primarais_totais_federal <-
+    despesas_primarais_totais_federal %>%
+    filter(!is.na(ano))
   
-  
-  
+
   orgao_orcamentario <- read_delim(path_orgaos_orcamentarios, 
                                    delim = ";", escape_double = FALSE, trim_ws = TRUE)
   
@@ -80,3 +81,25 @@ despesas_federal_fonte %>%
 
 
 saveRDS(dados_graficos_federal_fonte_tesouro,"dados_graficos_federal_fonte_tesouro.rds")
+
+
+dados_graficos_federal_pessoal_fontes <-
+  gera_dados_trabalho("Despesas_pessoal_federal_todas_fontes.xlsx") %>%
+  gera_dados_graficos() %>%
+  mutate(evolucao = evolucao/100)
+
+
+saveRDS(dados_graficos_federal_pessoal_fontes,"dados_graficos_federal_pessoal_fontes.rds")
+
+
+despesas_pessoal_fonte<-
+  gera_dados_trabalho("despesas_pessoal_federal_fontes.xlsx") %>%
+  filter(as.numeric(substr(fonte,1,1))%in%c(1,3))
+
+
+dados_graficos_federal_pessoal_fonte_tesouro<-
+  despesas_pessoal_fonte %>%
+  gera_dados_graficos()%>%
+  mutate(evolucao = evolucao/100)
+
+saveRDS(dados_graficos_federal_pessoal_fonte_tesouro,"dados_graficos_federal_pessoal_fonte_tesouro.rds")

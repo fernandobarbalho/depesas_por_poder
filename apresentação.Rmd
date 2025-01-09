@@ -12,9 +12,12 @@ library(colorspace)
 
 dados_graficos_federal_total <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_total.rds")
 dados_graficos_federal_fonte_tesouro <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_fonte_tesouro.rds")
+dados_graficos_federal_pessoal_fontes <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_pessoal_fontes.rds")
+dados_graficos_federal_pessoal_fonte_tesouro <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_pessoal_fonte_tesouro.rds")
 
 
-gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titulo, subtitulo, caption){
+
+gera_grafico_despesas_poderes<- function(.data, anos_sel= c(2018,2020,2024), deslocamento_vertical=0.05, titulo, subtitulo, caption){
   
   ultimo_ano <-
     .data %>%
@@ -38,13 +41,15 @@ gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titu
     geom_text(data = ultimo_ano, 
               aes(x = as.numeric(ano) + 0.2, y = evolucao, label = as.character(poder), color  = poder), 
               hjust = 0,
-              show.legend = FALSE) + # Alinha texto à esquerda
+              show.legend = FALSE,
+              fontface = "bold") + # Alinha texto à esquerda
     geom_label(data= dados_anos_sel,
-               aes(x= as.numeric(ano), y=evolucao + 0.05, 
+               aes(x= as.numeric(ano), y=evolucao + deslocamento_vertical, 
                    label = paste0(as.character(round(evolucao*100),0) ,"%"), 
-                   color = poder), 
+                   color = poder,
+              fontface = "bold"), 
                show.legend = FALSE,
-               size = 3) +
+               size = 4) +
     theme_minimal() + 
     theme(
       panel.grid = element_blank()
@@ -67,15 +72,32 @@ gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titu
 
 ## 
 
-```{r echo = FALSE, warning=FALSE, fig.height=8, fig.width=13, fig.dpi= 300 }
+```{r echo = FALSE, warning=FALSE, fig.height=10, fig.width=16, fig.dpi= 300 }
 gera_grafico_despesas_poderes(dados_graficos_federal_total, titulo= "Governo Federal: Evolução real de despesas correntes primárias - Todas as fontes de recurso", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
 ```
 
+
 ## 
 
-```{r echo = FALSE, warning=FALSE, fig.height=8, fig.width=13, fig.dpi= 300}
+```{r echo = FALSE, warning=FALSE, fig.height=10, fig.width=16, fig.dpi= 300}
 gera_grafico_despesas_poderes(dados_graficos_federal_fonte_tesouro, titulo= "Governo Federal: Evolução real de despesas correntes primárias - Fontes Tesouro", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
 
 
 ```
 
+## 
+
+```{r echo = FALSE, warning=FALSE, fig.height=10, fig.width=16, fig.dpi= 300}
+gera_grafico_despesas_poderes(dados_graficos_federal_pessoal_fontes, deslocamento_vertical=0.01,  titulo= "Governo Federal: Evolução real de despesas de pessoal - Todas as fontes de recurso", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
+
+
+```
+
+
+## 
+
+```{r echo = FALSE, warning=FALSE, fig.height=10, fig.width=16, fig.dpi= 300}
+gera_grafico_despesas_poderes(dados_graficos_federal_pessoal_fontes, deslocamento_vertical=0.01,  titulo= "Governo Federal: Evolução real de despesas de pessoal - Fontes Tesouro", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
+
+
+```
