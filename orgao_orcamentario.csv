@@ -1,0 +1,62 @@
+orgao_orcamentario; poder
+01000 - Camara dos Deputados;Legislativo
+02000 - Senado Federal;Legislativo
+03000 - Tribunal de Contas da União;Legislativo
+10000 - Supremo Tribunal Federal;Judiciário
+11000 - Superior Tribunal de Justiça;Judiciário
+12000 - Justiça Federal;Judiciário
+13000 - Justiça Militar da União;Judiciário
+14000 - Justiça Eleitoral;Judiciário
+15000 - Justiça do Trabalho;Judiciário
+16000 - Justiça do Distrito Federal e dos Territórios;Judiciário
+17000 - Conselho Nacional de Justiça;Judiciário
+20000 - Presidência da República;Executivo
+20102 - Gabinete da Vice-Presidência da República;Executivo
+20114 - Advocacia-Geral da União;Executivo
+22000 - Ministério da Agricultura e Pecuária;Executivo
+24000 - Ministério da Ciência, Tecnologia e Inovação;Executivo
+25000 - Ministério da Fazenda;Executivo
+26000 - Ministério da Educação;Executivo
+28000 - Ministério do Desenvolvimento, Indústria, Comércio e Serviços;Executivo
+30000 - Ministério da Justiça e Segurança Pública;Executivo
+32000 - Ministério de Minas e Energia;Executivo
+33000 - Ministério da Previdência Social;Executivo
+34000 - Ministério Público da União;Ministério Público 
+35000 - Ministério das Relações Exteriores;Executivo
+36000 - Ministério da Saúde;Executivo
+38000 - Ministério do Trabalho e Emprego;Executivo
+39000 - Ministério dos Transportes;Executivo
+41000 - Ministério das Comunicações;Executivo
+42000 - Ministério da Cultura;Executivo
+44000 - Ministério do Meio Ambiente e Mudança do Clima;Executivo
+47000 - Ministério do Planejamento e Orçamento;Executivo
+49000 - Ministério do Desenvolvimento Agrário e Agricultura Familiar;Executivo
+51000 - Ministério do Esporte;Executivo
+52000 - Ministério da Defesa;Executivo
+53000 - Ministério da Integração e do Desenvolvimento Regional;Executivo
+54000 - Ministério do Turismo;Executivo
+55000 - Ministério do Desenvolvimento e Assistência Social, Família e Combate à Fome;Executivo
+56000 - Ministério das Cidades;Executivo
+58000 - Ministério da Pesca e Aquicultura;Executivo
+59000 - Conselho Nacional do Ministério Público;Ministério Público
+71000 - Encargos Financeiros da União;Executivo
+73000 - Transferências a Estados, Distrito Federal e Municípios;Executivo
+74000 - Operações Oficiais de Crédito;Executivo
+60000 - Gabinete da Vice-Presidência da República;Executivo
+61000 - Secretaria de Assuntos Estratégicos;Executivo
+62000 - Secretaria de Aviação Civil;Executivo
+63000 - Advocacia-Geral da União;Executivo
+64000 - Ministério dos Direitos Humanos e da Cidadania;Executivo
+65000 - Ministério das Mulheres;Executivo
+66000 - Controladoria-Geral da União;Executivo
+67000 - Ministério da Igualdade Racial;Executivo
+68000 - Ministério de Portos e Aeroportos;Executivo
+69000 - Ministério do Empreendedorismo, da Microempresa e da Empresa de Pequeno Porte;Executivo
+29000 - Defensoria Pública da União;Defensoria Pública
+40000 - Ministério do Trabalho e Emprego;Executivo
+57000 - Ministério das Mulheres, da Igualdade Racial, da Juventude e dos Direitos Humanos;Executivo
+37000 - Controladoria-Geral da União;Executivo
+81000 - Ministério dos Direitos Humanos e da Cidadania;Executivo
+83000 - Banco Central do Brasil;Executivo
+46000 - Ministério da Gestão e da Inovação em Serviços Públicos;Executivo
+84000 - Ministério dos Povos Indígenas;Executivo
