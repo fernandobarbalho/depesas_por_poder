@@ -62,5 +62,21 @@ dados_graficos_federal_total <-
   gera_dados_graficos() %>%
   mutate(evolucao = evolucao/100)
 
+
+
+
 saveRDS(dados_graficos_federal_total,"dados_graficos_federal_total.rds")
 
+despesas_federal_fonte<-
+  gera_dados_trabalho("despesas_primarias_federais_fontes.xlsx") %>%
+  filter(as.numeric(substr(fonte,1,1))%in%c(1,3))
+
+
+dados_graficos_federal_fonte_tesouro<-
+despesas_federal_fonte %>%
+  filter(between(as.numeric(ano),2010,2024)) %>%
+  gera_dados_graficos()%>%
+  mutate(evolucao = evolucao/100)
+
+
+saveRDS(dados_graficos_federal_fonte_tesouro,"dados_graficos_federal_fonte_tesouro.rds")

@@ -11,6 +11,8 @@ library(tidyverse)
 library(colorspace)
 
 dados_graficos_federal_total <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_total.rds")
+dados_graficos_federal_fonte_tesouro <- readRDS("~/Github/depesas_por_poder/dados_graficos_federal_fonte_tesouro.rds")
+
 
 gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titulo, subtitulo, caption){
   
@@ -67,5 +69,13 @@ gera_grafico_despesas_poderes<- function(.data, anos_sel= c(208,2020,2024), titu
 
 ```{r echo = FALSE, warning=FALSE, fig.height=8, fig.width=13, fig.dpi= 300 }
 gera_grafico_despesas_poderes(dados_graficos_federal_total, titulo= "Governo Federal: Evolução real de despesas correntes primárias - Todas as fontes de recurso", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
+```
+
+## 
+
+```{r echo = FALSE, warning=FALSE, fig.height=8, fig.width=13, fig.dpi= 300}
+gera_grafico_despesas_poderes(dados_graficos_federal_fonte_tesouro, titulo= "Governo Federal: Evolução real de despesas correntes primárias - Fontes Tesouro", subtitulo = "(Sem investimentos, sem serviço da dívida e sem transferências a entes subnacionais)", caption = "Fonte: SIOP. Elaboração própria")
+
+
 ```
 
