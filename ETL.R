@@ -5,6 +5,41 @@ library(colorspace)
 library(ggrepel)
 
 
+
+gera_consolidado_sp<- function(path){
+  
+  # Define o caminho da pasta
+  pasta <-  path 
+  
+  # Lista todos os arquivos na pasta
+  arquivos <- list.files(path = pasta, full.names = TRUE)
+  
+  despesa_trabalho<-
+  map_dfr(arquivos, function(arquivo){
+    
+    ano<- substr(arquivo,21,24)
+    
+    despesa <-  read_csv(arquivo, 
+                         locale = locale(decimal_mark = ",", grouping_mark = ".", 
+                                         encoding = "latin1"))
+    
+    despesa<- janitor::clean_names(despesa)
+    
+    despesa$ano<- ano
+    
+    despesa
+  })
+  
+
+}
+
+
+despesa_pessoal_sp<- gera_consolidado_sp("despesas_pessoal_sp/")
+
+outras_despesas_corrente_sp <- gera_consolidado_sp("despesas_odc_sp/")
+
+
+
 gera_dados_trabalho<- function(path_dados_orcamento, path_orgaos_orcamentarios= "orgao_orcamentario.csv"){
   
   despesas_primarais_totais_federal <- read_excel(path_dados_orcamento)
@@ -56,6 +91,9 @@ gera_dados_graficos<- function(.data, ano_ref =2010, mes_real= "11/2024"){
 }
 
 
+#####Despesas governo Federal
+
+
 anos_sel<- c(2018,2020,2024)
 
 dados_graficos_federal_total <-
@@ -103,3 +141,6 @@ dados_graficos_federal_pessoal_fonte_tesouro<-
   mutate(evolucao = evolucao/100)
 
 saveRDS(dados_graficos_federal_pessoal_fonte_tesouro,"dados_graficos_federal_pessoal_fonte_tesouro.rds")
+
+
+###########Despesas governo São Paulo
