@@ -6,6 +6,8 @@ library(ggrepel)
 
 
 
+
+
 gera_consolidado_sp<- function(path){
   
   # Define o caminho da pasta
@@ -17,7 +19,7 @@ gera_consolidado_sp<- function(path){
   despesa_trabalho<-
   map_dfr(arquivos, function(arquivo){
     
-    ano<- substr(arquivo,21,24)
+    ano<- str_extract(arquivo,"\\d+")
     
     despesa <-  read_csv(arquivo, 
                          locale = locale(decimal_mark = ",", grouping_mark = ".", 
@@ -32,11 +34,6 @@ gera_consolidado_sp<- function(path){
   
 
 }
-
-
-despesa_pessoal_sp<- gera_consolidado_sp("despesas_pessoal_sp/")
-
-outras_despesas_corrente_sp <- gera_consolidado_sp("despesas_odc_sp/")
 
 
 
@@ -65,6 +62,23 @@ gera_dados_trabalho<- function(path_dados_orcamento, path_orgaos_orcamentarios= 
   despesas_primarias_totais_federal_trabalho
   
 }
+
+gera_dados_trabalho_sp<- function(.data, path_orgaos_orcamentarios= "orgaos_orcamento_sp.csv"){
+  
+
+  orgao_orcamentario <- read_delim(path_orgaos_orcamentarios, 
+                                   delim = ";", escape_double = FALSE, trim_ws = TRUE)
+  
+  .data<-
+    .data %>%
+    inner_join(orgao_orcamentario)
+  
+  
+  .data
+  
+}
+
+
 
 gera_dados_graficos<- function(.data, ano_ref =2010, mes_real= "11/2024"){
   
@@ -144,3 +158,80 @@ saveRDS(dados_graficos_federal_pessoal_fonte_tesouro,"dados_graficos_federal_pes
 
 
 ###########Despesas governo São Paulo
+
+despesa_pessoal_sp<- gera_consolidado_sp("despesas_pessoal_sp/")
+
+despesa_pessoal_sp<-
+  despesa_pessoal_sp %>%
+  filter(!is.na(orgao))
+
+outras_despesas_corrente_sp <- gera_consolidado_sp("despesas_odc_sp/")
+
+outras_despesas_corrente_sp<-
+  outras_despesas_corrente_sp %>%
+  filter(!is.na(orgao))
+
+
+despesas_funcao_sp<- gera_consolidado_sp("despesas_f_sp")
+
+despesas_funcao_sp <-
+  despesas_funcao_sp %>%
+  filter(!is.na(orgao))
+
+#Checa se as despesas de pessoal possuem apenas despesas de pessoal
+
+despesa_pessoal_sp %>%
+  filter(substr(despesa,1,2)!="31")
+
+
+#Checa se as outras despesas correntes possuem apenas outras despesas correntes
+
+outras_despesas_corrente_sp %>%
+  filter(substr(despesa,1,2)!="33")
+
+
+
+#checa os anos distintos de despesas de pessoal
+unique(despesa_pessoal_sp$ano)
+
+#checa os anos distintos de outras despesas correntes
+unique(outras_despesas_corrente_sp$ano)
+
+#Gera arquivo com os órgãos
+
+despesa_pessoal_sp %>%
+  distinct(orgao) %>%
+  readr::write_csv("orgaos_orcamento_sp.csv")
+
+#GEra dados de trabalho de df de pessoal
+
+despesa_pessoal_sp_trabalho<- 
+despesa_pessoal_sp %>%
+  gera_dados_trabalho_sp()
+
+
+#GEra dados de trabalho de df de outras despesas correntes
+
+outras_despesas_corrente_sp_trabalho<- 
+  outras_despesas_corrente_sp %>%
+  gera_dados_trabalho_sp()
+
+
+#GEra dados de trabalho de df de despesa por função
+
+despesas_funcao_sp_trabalho<- 
+  despesas_funcao_sp %>%
+  gera_dados_trabalho_sp()
+
+
+#Gera dados de gráfico para SP depesas de pessoal todas fontes
+
+dados_grafico_pessoal_todas_fontes_sp<-
+  despesa_pessoal_sp_trabalho %>%
+  gera_dados_graficos()
+
+
+dados_grafico_pessoal_todas_fontes_sp %>%
+  filter(poder != "Defensoria Pública") %>%
+  ggplot(aes(x= ano, y= evolucao)) +
+  geom_line(aes(color = poder, group = poder))
