@@ -29,6 +29,7 @@ gera_consolidado_sp<- function(path){
     
     despesa$ano<- ano
     
+
     despesa
   })
   
@@ -199,9 +200,9 @@ unique(outras_despesas_corrente_sp$ano)
 
 #Gera arquivo com os órgãos
 
-despesa_pessoal_sp %>%
-  distinct(orgao) %>%
-  readr::write_csv("orgaos_orcamento_sp.csv")
+# despesa_pessoal_sp %>%
+#   distinct(orgao) %>%
+#   readr::write_csv("orgaos_orcamento_sp.csv")
 
 #GEra dados de trabalho de df de pessoal
 
@@ -228,10 +229,12 @@ despesas_funcao_sp_trabalho<-
 
 dados_grafico_pessoal_todas_fontes_sp<-
   despesa_pessoal_sp_trabalho %>%
-  gera_dados_graficos()
+  mutate(pago = pago+ pago_restos) %>%
+  filter(poder != unique(despesa_pessoal_sp_trabalho$poder)[5]) %>%
+  filter(ano<=2016) %>%
+  gera_dados_graficos()%>%
+  mutate(evolucao = evolucao/100)
 
 
-dados_grafico_pessoal_todas_fontes_sp %>%
-  filter(poder != "Defensoria Pública") %>%
-  ggplot(aes(x= ano, y= evolucao)) +
-  geom_line(aes(color = poder, group = poder))
+
+saveRDS(dados_grafico_pessoal_todas_fontes_sp, "dados_grafico_pessoal_todas_fontes_sp.rds")
